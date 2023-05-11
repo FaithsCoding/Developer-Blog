@@ -1,14 +1,13 @@
-const app = require("../app.js");
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const { User } = require("../models");
 
 router.get("/", async (req, res) => {
-  return res.render("home", { title: "Homepage" });
+  return res.render("home", { title: "homepage" });
 });
 
 router.get("/user/:num", async (req, res) => {
-  return res.render("user", users[req.params.num - 1]);
+  return res.render("user", Users[req.params.num - 1]);
 });
 
 router.get("/login", async (req, res) => {
