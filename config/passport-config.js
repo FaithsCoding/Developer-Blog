@@ -9,7 +9,7 @@ passport.use(
     },
     async (email, password, done) => {
       try {
-        const user = await user.findOne({ where: { email } });
+        const user = await User.findOne({ where: { email } });
         if (!user) {
           console.log("Email not found:", email);
           return done(null, false, { message: "Incorrect email or password" });
@@ -34,7 +34,7 @@ passport.serializeUser(function (user, done) {
 
 passport.deserializeUser(async function (id, done) {
   try {
-    const user = await user.findByPk(id);
+    const user = await User.findByPk(id);
     if (!user) {
       return done(new Error("User not found"));
     }
@@ -43,5 +43,3 @@ passport.deserializeUser(async function (id, done) {
     done(error);
   }
 });
-
-module.exports = User;

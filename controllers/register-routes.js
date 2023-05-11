@@ -1,7 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const router = express.Router();
-const { User } = require("../models");
+const User = require("../models/User");
 const saltRounds = 10;
 
 router.get("/register", async (req, res) => {
@@ -10,12 +10,11 @@ router.get("/register", async (req, res) => {
 
 router.post("/register", async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { email, password } = req.body;
 
     // Create a new user with the provided details and hashed password
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    const newUser = await user.create({
-      name,
+    const newUser = await User.create({
       email,
       password: hashedPassword,
     });

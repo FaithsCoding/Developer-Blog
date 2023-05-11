@@ -1,6 +1,7 @@
 const app = require("../app.js");
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
+const { User } = require("../models");
 
 router.get("/", async (req, res) => {
   return res.render("home", { title: "Homepage" });
