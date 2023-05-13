@@ -12,7 +12,7 @@ const User = require("./models/User");
 
 // Sets up the Express App
 const app = express();
-const PORT = process.env.PORT || 3008;
+const PORT = process.env.PORT || 3010;
 
 // Set Handlebars as the default template engine.
 app.engine("handlebars", hbs.engine);
