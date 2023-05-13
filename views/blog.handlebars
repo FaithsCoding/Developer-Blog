@@ -1,0 +1,38 @@
+<!-- views/layouts/main.handlebars -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+  <header class="bg-white shadow-sm">
+    <nav class="max-w-screen-xl mx-auto px-4 py-2">
+      <a href="/" class="text-gray-800 font-semibold">My Blog</a>
+    </nav>
+  </header>
+
+  <main class="max-w-screen-xl mx-auto px-4 py-8">
+    {{#each blogPosts}}
+    <article class="mb-8 bg-white rounded-lg shadow-md">
+      <h2 class="text-2xl font-semibold px-6 py-4">{{ title }}</h2>
+      <div class="px-6 py-4">
+        <p class="text-gray-700">{{ content }}</p>
+      </div>
+    </article>
+    {{/each}}
+  </main>
+
+  <footer class="bg-gray-200">
+    <div class="max-w-screen-xl mx-auto px-4 py-2">
+      <p class="text-center text-gray-600">© 2023 My Blog. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

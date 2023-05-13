@@ -3,6 +3,22 @@ const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 const { User } = require("../models");
 
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async function (id, done) {
+  try {
+    const user = await User.findByPk(id);
+    if (!user) {
+      return done(new Error("User not found"));
+    }
+    done(null, user);
+  } catch (error) {
+    done(error);
+  }
+});
+
 passport.use(
   new LocalStrategy(
     {
@@ -28,19 +44,3 @@ passport.use(
     }
   )
 );
-
-passport.serializeUser(function (user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async function (id, done) {
-  try {
-    const user = await User.findByPk(id);
-    if (!user) {
-      return done(new Error("User not found"));
-    }
-    done(null, user);
-  } catch (error) {
-    done(error);
-  }
-});

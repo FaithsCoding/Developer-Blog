@@ -1,0 +1,38 @@
+<!-- Content Block -->
+<div class="flex justify-center items-center h-screen bg-gray-100">
+  <div class="bg-white p-8 rounded shadow-md">
+    <h2 class="text-2xl font-bold mb-4">Create a New Blog Post</h2>
+
+    <!-- AddBlog Form -->
+    <form action="/addblog" method="POST">
+      <!-- Blog Title -->
+      <div class="mb-4">
+        <label for="title" class="block mb-2 font-semibold">Title:</label>
+        <input type="text" id="title" name="title" required class="w-full border border-gray-300 rounded py-2 px-3">
+      </div>
+
+      <!-- Excerpt -->
+      <div class="mb-4">
+        <label for="excerpt" class="block mb-2 font-semibold">Excerpt:</label>
+        <textarea id="excerpt" name="excerpt" required class="w-full border border-gray-300 rounded py-2 px-3"></textarea>
+      </div>
+
+      <!-- Content -->
+      <div class="mb-4">
+        <label for="content" class="block mb-2 font-semibold">Content:</label>
+        <textarea id="content" name="content" required class="w-full border border-gray-300 rounded py-2 px-3"></textarea>
+      </div>
+
+      <!-- Image URL -->
+      <div class="mb-4">
+        <label for="image" class="block mb-2 font-semibold">Image URL:</label>
+        <input type="text" id="image" name="image" required class="w-full border border-gray-300 rounded py-2 px-3">
+      </div>
+
+      <input type="hidden" name="userId" value="{{userId}}">
+
+      <!-- Submit Button -->
+      <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">Submit</button>
+    </form>
+  </div>
+</div>
