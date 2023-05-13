@@ -1,0 +1,24 @@
+<body class="bg-gray-100">
+  <header class="bg-white shadow-sm">
+    <nav class="max-w-screen-xl mx-auto px-4 py-2">
+      <a href="/" class="text-gray-800 font-semibold">My Blog</a>
+    </nav>
+  </header>
+
+  <main class="max-w-screen-xl mx-auto px-4 py-8">
+    <article class="mb-8 bg-white rounded-lg shadow-md">
+      <h2 class="text-2xl font-semibold px-6 py-4">{{ title }}</h2>
+      <div class="px-6 py-4">
+        <p class="text-gray-500">{{ excerpt }}</p>
+        <p class="text-gray-700">{{ content }}</p>
+
+        <p class="text-gray-500">Published: {{ createdAt }}</p>
+        <p class="text-gray-500">Modified: {{ updatedAt }}</p>
+        <p class="text-gray-500">Username: {{ authorUsername }}</p>
+      </div>
+    </article>
+
+    <div class="text-right">
+      <a href="/editpost/{{ blogId }}" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">Edit</a>
+    </div>
+    </main>

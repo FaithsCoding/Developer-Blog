@@ -4,7 +4,27 @@ const { User } = require("../models");
 const { Blog } = require("../models");
 
 router.get("/", async (req, res) => {
-  return res.render("home", { title: "homepage" });
+  try {
+    // Fetch all blog posts from the database
+    const blogPosts = await Blog.findAll({
+      attributes: ["id", "title", "excerpt", "createdAt"], // Specify the attributes you want to retrieve
+      order: [["createdAt", "DESC"]], // Optional: Order the blog posts by createdAt timestamp in descending order
+    });
+
+    // Extract the required properties from each blog post
+    const formattedBlogPosts = blogPosts.map((blog) => ({
+      id: blog.id,
+      title: blog.title,
+      excerpt: blog.excerpt,
+      createdAt: blog.createdAt,
+    }));
+
+    // Render the home page and pass the formatted blog posts to the template
+    res.render("home", { blogPosts: formattedBlogPosts });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
 });
 
 router.get("/user/:num", async (req, res) => {
@@ -21,12 +41,8 @@ router.get("/login", async (req, res) => {
 
 router.post("/logout", (req, res) => {
   req.logout(() => {
-    res.redirect("/login");
+    res.redirect("/");
   });
-});
-
-router.get("/register", ensureAuthenticated, async (req, res) => {
-  return res.render("register", { title: "Register" });
 });
 
 router.get("/dashboard", async (req, res, next) => {
@@ -39,11 +55,22 @@ router.get("/dashboard", async (req, res, next) => {
     const userId = req.user.id; // Assuming you have set up authentication and the user ID is available in the request object
     const userBlogs = await Blog.findAll({
       where: { userId },
-      order: [["createdAt", "DESC"]], // Optional: Order the blog posts by createdAt timestamp in descending order
+      order: [["createdAt", "DESC"]],
     });
 
-    // Render the dashboard page and pass the user's blog posts to the template
-    res.render("dashboard", { blogs: userBlogs });
+    // Extract the title, excerpt, and createdAt from each blog post
+    const blogPosts = userBlogs.map((blog) => ({
+      id: blog.id,
+      title: blog.title,
+      excerpt: blog.excerpt,
+      createdAt: blog.createdAt, // Include the createdAt value
+    }));
+
+    // Pass the username to the template
+    const username = req.user.username;
+
+    // Render the dashboard page and pass the extracted blog posts and username to the template
+    res.render("dashboard", { blogPosts, loggedIn: true, username });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });

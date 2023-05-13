@@ -1,6 +1,5 @@
 const router = require("express").Router();
-const { User } = require("../models");
-const { Blog } = require("../models");
+const { User, Blog } = require("../models");
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
@@ -22,7 +21,7 @@ router.get("/createblog", ensureAuthenticated, async (req, res) => {
 router.post("/addblog", async (req, res) => {
   try {
     // Extract the blog data from the request body
-    const { title, excerpt, content, image, userId } = req.body;
+    const { title, excerpt, content, userId } = req.body;
 
     // Convert the userId to an integer
     const parsedUserId = parseInt(userId);
@@ -32,18 +31,151 @@ router.post("/addblog", async (req, res) => {
       title,
       excerpt,
       content,
-      image,
       userId: parsedUserId,
     });
 
-    // Redirect or send a response indicating the success
-    res
-      .status(201)
-      .json({ message: "Blog post created successfully", blog: newBlog });
+    // Redirect the user to the view blog post page for the newly created post
+    res.redirect(`/post/${newBlog.id}`);
   } catch (error) {
     // Handle any errors that occur during the process
     console.error(error);
     res.status(500).json({ message: "Failed to create the blog post" });
+  }
+});
+
+router.get("/post/:id", async (req, res) => {
+  const blogId = req.params.id; // Get the blog post ID from the URL parameter
+  try {
+    // Fetch the blog post from the database based on the ID
+    const blog = await Blog.findByPk(blogId, {
+      include: { model: User, as: "user" },
+    }); // Include the User model with the correct alias
+    if (!blog) {
+      // If the blog post is not found, you can handle the error or redirect to a 404 page
+      return res.status(404).render("error", { error: "Blog post not found" });
+    }
+
+    // Extract the required properties from the blog and author objects
+    const { title, excerpt, content, createdAt, updatedAt } = blog;
+    const authorUsername = blog.user.username; // Access the author's username from the user association
+
+    // Render the blog post view and pass the blog properties, author's username, and the blog post ID to the template
+    res.render("post", {
+      title,
+      excerpt,
+      content,
+      createdAt,
+      updatedAt,
+      authorUsername,
+      blogId, // Pass the blog post ID to the view
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).render("error", { error: "Server error" });
+  }
+});
+
+router.put("/posts/:id", async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const { title, content } = req.body;
+
+    const post = await Post.findByPk(postId);
+
+    if (!post) {
+      // Handle post not found error
+      return res.status(404).render("error", { error: "Post not found" });
+    }
+
+    // Update the post with the new data
+    post.title = title;
+    post.content = content;
+    await post.save();
+
+    // Redirect to the updated post
+    res.redirect(`/posts/${postId}`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).render("error", { error: "Server error" });
+  }
+});
+
+router.post("/deletepost/:id", async (req, res) => {
+  const blogId = req.params.id; // Get the blog post ID from the URL parameter
+
+  try {
+    // Find the blog post in the database based on the ID
+    const blog = await Blog.findByPk(blogId);
+
+    if (!blog) {
+      // If the blog post is not found, you can handle the error or redirect to a 404 page
+      return res.status(404).render("error", { error: "Blog post not found" });
+    }
+
+    // Delete the blog post from the database
+    await blog.destroy();
+
+    // Redirect the user to the dashboard page after successful deletion
+    res.redirect("/dashboard");
+  } catch (err) {
+    console.error(err);
+    res.status(500).render("error", { error: "Server error" });
+  }
+});
+
+router.put("/editpost/:id", async (req, res) => {
+  const blogId = req.params.id; // Get the blog post ID from the URL parameter
+  const { title, excerpt, content } = req.body; // Get the updated blog post data from the request body
+
+  try {
+    // Find the blog post in the database based on the ID
+    const blog = await Blog.findByPk(blogId);
+    if (!blog) {
+      // If the blog post is not found, you can handle the error or redirect to a 404 page
+      return res.status(404).render("error", { error: "Blog post not found" });
+    }
+
+    // Update the blog post with the new data
+    blog.title = title;
+    blog.excerpt = excerpt;
+    blog.content = content;
+    blog.modified = new Date(); // Update the modified timestamp
+
+    // Save the updated blog post to the database
+    await blog.save();
+
+    // Redirect the user to the edited blog post
+    res.redirect(`/post/${blogId}`);
+  } catch (err) {
+    // Handle any errors that occur during the process
+    console.error(err);
+    res
+      .status(500)
+      .render("error", { error: "Failed to update the blog post" });
+  }
+});
+
+router.get("/editpost/:id", ensureAuthenticated, async (req, res) => {
+  try {
+    const userId = req.user.id; // Retrieve the user ID from the authenticated user
+    const blogId = req.params.id; // Get the blog post ID from the URL parameter
+
+    // Fetch the blog post from the database based on the ID and the user ID
+    const blog = await Blog.findOne({
+      where: { id: blogId, userId: userId },
+      attributes: ["id", "title", "excerpt", "content"], // Specify the attributes you want to retrieve
+    });
+
+    if (!blog) {
+      // If the blog post is not found, you can handle the error or redirect to a 404 page
+      return res.status(404).render("error", { error: "Blog post not found" });
+    }
+
+    // Render the editpost view and pass the blog post data to the template
+    res.render("editpost", { blog: blog.toJSON() }); // Convert blog object to JSON and pass it to the view
+  } catch (error) {
+    console.error(error);
+    res.status(500).render("error", { error: "Server error" });
   }
 });
 

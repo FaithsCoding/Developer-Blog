@@ -2,7 +2,6 @@ const express = require("express");
 const exphbs = require("express-handlebars");
 const path = require("path");
 const sequelize = require("./config/connection");
-const hbs = exphbs.create({});
 const passport = require("passport");
 const session = require("express-session");
 const initializePassport = require("./config/passport-config");
@@ -14,6 +13,15 @@ const app = express();
 const PORT = process.env.PORT || 3040;
 
 // Set Handlebars as the default template engine.
+const hbs = exphbs.create({
+  helpers: {
+    formatDate: function (date) {
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      return new Date(date).toLocaleDateString(undefined, options);
+    },
+  },
+});
+
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 

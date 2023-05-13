@@ -22,22 +22,33 @@ passport.deserializeUser(async function (id, done) {
 passport.use(
   new LocalStrategy(
     {
-      usernameField: "email", // or whatever you're using as your username field
+      usernameField: "username",
     },
-    async (email, password, done) => {
+    async (providedUsername, password, done) => {
       try {
-        const user = await User.findOne({ where: { email } });
+        const user = await User.findOne({
+          where: { username: providedUsername },
+        });
         if (!user) {
-          console.log("Email not found:", email);
-          return done(null, false, { message: "Incorrect email or password" });
+          console.log("Username not found:", providedUsername);
+          return done(null, false, {
+            message: "Incorrect username or password",
+          });
         }
         const isValidPassword = await bcrypt.compare(password, user.password);
         if (!isValidPassword) {
-          console.log("Invalid password for email:", email);
-          return done(null, false, { message: "Incorrect email or password" });
+          console.log("Invalid password for username:", providedUsername);
+          return done(null, false, {
+            message: "Incorrect username or password",
+          });
         }
-        console.log("Successfully authenticated email:", email);
-        return done(null, user);
+        console.log("Successfully authenticated username:", providedUsername);
+
+        // Add the username to the user object
+        const { id, email, username } = user;
+        const authenticatedUser = { id, email, username };
+
+        return done(null, authenticatedUser);
       } catch (error) {
         done(error);
       }
