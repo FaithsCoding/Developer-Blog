@@ -57,7 +57,6 @@ router.get("/post/:id", async (req, res) => {
         }, // Include User model with the "user" alias
       ],
     });
-    // Include the User model with the correct alias and the Comment model with User association
 
     if (!blog) {
       // If the blog post is not found, you can handle the error or redirect to a 404 page
@@ -74,7 +73,10 @@ router.get("/post/:id", async (req, res) => {
       username: comment.user.username,
     }));
 
-    // Render the blog post view and pass the blog properties, author's username, and the blog post ID to the template
+    // Get the currently logged-in user ID
+    const userId = req.user ? req.user.id : null;
+
+    // Render the blog post view and pass the blog properties, author's username, blog post ID, and the user ID to the template
     res.render("post", {
       title,
       excerpt,
@@ -84,6 +86,7 @@ router.get("/post/:id", async (req, res) => {
       authorUsername,
       blogId, // Pass the blog post ID to the view
       comments, // Pass the comments to the view
+      userId, // Pass the user ID to the view
     });
   } catch (err) {
     console.error(err);
