@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { User, Blog } = require("../models");
+const { User, Blog, Comment } = require("../models");
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
@@ -48,8 +48,17 @@ router.get("/post/:id", async (req, res) => {
   try {
     // Fetch the blog post from the database based on the ID
     const blog = await Blog.findByPk(blogId, {
-      include: { model: User, as: "user" },
-    }); // Include the User model with the correct alias
+      include: [
+        { model: User, as: "user" },
+        {
+          model: Comment,
+          as: "comments",
+          include: { model: User, as: "user" },
+        }, // Include User model with the "user" alias
+      ],
+    });
+    // Include the User model with the correct alias and the Comment model with User association
+
     if (!blog) {
       // If the blog post is not found, you can handle the error or redirect to a 404 page
       return res.status(404).render("error", { error: "Blog post not found" });
@@ -58,6 +67,12 @@ router.get("/post/:id", async (req, res) => {
     // Extract the required properties from the blog and author objects
     const { title, excerpt, content, createdAt, updatedAt } = blog;
     const authorUsername = blog.user.username; // Access the author's username from the user association
+
+    // Extract the comments from the blog object
+    const comments = blog.comments.map((comment) => ({
+      content: comment.content,
+      username: comment.user.username,
+    }));
 
     // Render the blog post view and pass the blog properties, author's username, and the blog post ID to the template
     res.render("post", {
@@ -68,6 +83,7 @@ router.get("/post/:id", async (req, res) => {
       updatedAt,
       authorUsername,
       blogId, // Pass the blog post ID to the view
+      comments, // Pass the comments to the view
     });
   } catch (err) {
     console.error(err);

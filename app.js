@@ -43,12 +43,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routes
-app.use(require("./controllers/all-routes"));
-app.use(require("./controllers/register-routes"));
-app.use(require("./controllers/blog-routes"));
-app.use(require("./controllers/login-routes"));
-
 // Connects to DB & starts the server to begin listening
 sequelize.sync({ force: false }).then(() => {
   console.log("Database connected!");
@@ -56,5 +50,12 @@ sequelize.sync({ force: false }).then(() => {
     console.log("Server listening on: http://localhost:" + PORT)
   );
 });
+
+// Routes
+app.use(require("./controllers/all-routes"));
+app.use(require("./controllers/register-routes"));
+app.use(require("./controllers/blog-routes"));
+app.use(require("./controllers/login-routes"));
+app.use(require("./controllers/comment-routes"));
 
 module.exports = app;

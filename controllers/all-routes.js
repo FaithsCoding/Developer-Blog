@@ -2,6 +2,7 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const { User } = require("../models");
 const { Blog } = require("../models");
+const { Comment } = require("../models");
 
 router.get("/", async (req, res) => {
   try {

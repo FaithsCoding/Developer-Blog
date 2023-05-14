@@ -1,11 +1,22 @@
-<form action="/comments" method="POST" class="mt-4">
+<div class="mt-8">
+      <h3 class="text-lg font-semibold mb-4">Comments:</h3>
+      {{#each comments}}
+      <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+        <p class="text-gray-700">{{ this.content }}</p>
+        <p class="text-gray-500">Commented by: {{ this.username }}</p>
+      </div>
+      {{/each}}
+    </div>
+    
+<form action="/addcomment" method="POST" class="mt-4">
   <div class="flex flex-col mb-4">
     <label for="content" class="text-sm font-semibold mb-1">Comment:</label>
     <textarea id="content" name="content" class="border border-gray-300 rounded py-2 px-3" rows="4" required></textarea>
   </div>
 
-  <input type="hidden" name="blogId" value="{{ blogId }}">
-  <input type="hidden" name="userId" value="{{ userId }}">
+<input type="hidden" name="userId" value="{{ userId }}">
+<input type="hidden" name="blogId" value="{{ blogId }}">
+  
 
   <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">Submit</button>
 </form>
