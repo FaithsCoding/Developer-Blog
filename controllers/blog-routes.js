@@ -16,7 +16,8 @@ function formatDate(date) {
 router.get("/createblog", ensureAuthenticated, async (req, res) => {
   try {
     const userId = req.user.id; // Retrieve the user ID from the authenticated user
-    return res.render("createblog", { userId }); // Pass the user ID to the view
+    const loggedIn = req.isAuthenticated();
+    return res.render("createblog", { userId, loggedIn }); // Pass the user ID to the view & verify if the user is logged in
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });

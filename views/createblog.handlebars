@@ -1,9 +1,6 @@
-<!-- Content Block -->
-<div class="flex justify-center items-center h-screen bg-gray-100">
-  <div class="bg-white p-8 rounded shadow-md">
-    <h2 class="text-2xl font-bold mb-4">Create a New Blog Post</h2>
-
-    <!-- AddBlog Form -->
+<!-- Main Content -->
+<main class="container mx-auto px-4 py-8">
+  <h2 class="text-2xl font-bold mb-4">Create a New Blog Post</h2>
     <form action="/addblog" method="POST">
       <!-- Blog Title -->
       <div class="mb-4">
@@ -20,7 +17,7 @@
       <!-- Content -->
       <div class="mb-4">
         <label for="content" class="block mb-2 font-semibold">Content:</label>
-        <textarea id="content" name="content" required class="w-full border border-gray-300 rounded py-2 px-3"></textarea>
+        <textarea id="content" name="content" rows="10" required class="w-full border border-gray-300 rounded py-2 px-3"></textarea>
       </div>
 
       <input type="hidden" name="userId" value="{{userId}}">
@@ -28,5 +25,4 @@
       <!-- Submit Button -->
       <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">Submit</button>
     </form>
-  </div>
-</div>
+</main>
