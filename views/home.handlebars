@@ -1,31 +1,18 @@
 <!-- Homepage -->
 <div class="container mx-auto">
-  <div class="grid grid-cols-3 gap-4">
-    <!-- Blog Post Grid -->
-    <div class="col-span-2">
-      <h1 class="text-3xl font-bold mb-4">Latest Blog Posts</h1>
-      <div class="grid grid-cols-3 gap-4">
-{{#each blogPosts}}
-<div class="bg-white shadow-md p-4">
-  <h2 class="text-xl font-semibold">{{ this.title }}</h2>
-  <p class="text-gray-500">{{ this.excerpt }}</p>
-  <p class="text-gray-400 text-sm mt-2">{{formatDate this.createdAt}}</p>
-  <div class="flex justify-end mt-4">
-    <a href="/post/{{ this.id }}" class="text-blue-500 hover:text-blue-700">Read More</a>
-  </div>
-</div>
-{{/each}}
+  <div>
+    <h1 class="text-3xl font-bold mb-4">Latest Blog Posts</h1>
+    <div class="grid grid-cols-3 gap-4">
+      {{#each blogPosts}}
+      <div class="bg-white shadow-md p-4">
+        <h2 class="text-xl font-semibold">{{ this.title }}</h2>
+        <p class="text-gray-500">{{ this.excerpt }}</p>
+        <p class="text-gray-400 text-sm mt-2">{{formatDate this.createdAt}}</p>
+        <div class="flex justify-end mt-4">
+          <a href="/post/{{ this.id }}" class="text-blue-500 hover:text-blue-700">Read More</a>
+        </div>
       </div>
-    </div>
-
-    <!-- Sidebar -->
-    <div class="col-span-1">
-      <h2 class="text-xl font-bold mb-4">Social Media Links</h2>
-      <ul>
-        <li><a href="#">Twitter</a></li>
-        <li><a href="#">Facebook</a></li>
-        <li><a href="#">Instagram</a></li>
-      </ul>
+      {{/each}}
     </div>
   </div>
 </div>
