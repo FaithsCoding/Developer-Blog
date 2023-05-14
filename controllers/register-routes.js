@@ -15,16 +15,23 @@ router.post("/register", async (req, res) => {
     // Create a new user with the provided details and hashed password
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     const newUser = await User.create({
-      username, 
+      username,
       email,
       password: hashedPassword,
     });
 
-    // Redirect the user to the login page
-    res.redirect("/login");
+    // Log in and authenticate the newly registered user
+    req.login(newUser, (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).render("error", { error: "Server error" });
+      }
+      // Redirect the user to a protected route or homepage
+      return res.redirect("/dashboard");
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server error");
+    res.status(500).render("error", { error: "Server error" });
   }
 });
 

@@ -8,8 +8,8 @@ router.get("/", async (req, res) => {
   try {
     // Fetch all blog posts from the database
     const blogPosts = await Blog.findAll({
-      attributes: ["id", "title", "excerpt", "createdAt"], // Specify the attributes you want to retrieve
-      order: [["createdAt", "DESC"]], // Optional: Order the blog posts by createdAt timestamp in descending order
+      attributes: ["id", "title", "excerpt", "createdAt"],
+      order: [["createdAt", "DESC"]],
     });
 
     // Extract the required properties from each blog post
@@ -20,8 +20,11 @@ router.get("/", async (req, res) => {
       createdAt: blog.createdAt,
     }));
 
-    // Render the home page and pass the formatted blog posts to the template
-    res.render("home", { blogPosts: formattedBlogPosts });
+    // Check if the user is authenticated
+    const loggedIn = req.isAuthenticated();
+
+    // Render the home page and pass the formatted blog posts, loggedIn status, and username to the template
+    res.render("home", { blogPosts: formattedBlogPosts, loggedIn });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
@@ -40,8 +43,11 @@ router.get("/login", async (req, res) => {
   return res.render("login", { title: "login" });
 });
 
-router.post("/logout", (req, res) => {
-  req.logout(() => {
+router.get("/logout", function (req, res, next) {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
     res.redirect("/");
   });
 });

@@ -30,7 +30,10 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false },
+    cookie: {
+      // maxAge: 60 * 1000, // 1 minute in milliseconds uncomment for testing
+      maxAge: 60 * 60 * 1000, // 1 hour in milliseconds - for production
+    },
   })
 );
 

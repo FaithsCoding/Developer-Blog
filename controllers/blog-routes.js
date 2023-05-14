@@ -8,6 +8,11 @@ function ensureAuthenticated(req, res, next) {
   res.redirect("/login");
 }
 
+function formatDate(date) {
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  return new Date(date).toLocaleDateString(undefined, options);
+}
+
 router.get("/createblog", ensureAuthenticated, async (req, res) => {
   try {
     const userId = req.user.id; // Retrieve the user ID from the authenticated user
@@ -71,7 +76,11 @@ router.get("/post/:id", async (req, res) => {
     const comments = blog.comments.map((comment) => ({
       content: comment.content,
       username: comment.user.username,
+      createdAt: formatDate(comment.createdAt),
     }));
+
+    // Check if the user is authenticated
+    const loggedIn = req.isAuthenticated();
 
     // Get the currently logged-in user ID
     const userId = req.user ? req.user.id : null;
@@ -87,6 +96,7 @@ router.get("/post/:id", async (req, res) => {
       blogId, // Pass the blog post ID to the view
       comments, // Pass the comments to the view
       userId, // Pass the user ID to the view
+      loggedIn, //check if site user is logged in
     });
   } catch (err) {
     console.error(err);
