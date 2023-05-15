@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { User, Blog, Comment } = require("../models");
 
+//this is a function to ensure the user is authenticated before being able to add comments
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
@@ -10,20 +11,20 @@ function ensureAuthenticated(req, res, next) {
 
 router.post("/addcomment", async (req, res) => {
   try {
-    // Extract the comment data from the request body
+    // Extracts the comment data from the request body
     const { content, userId, blogId } = req.body;
 
-    // Ensure that userId and blogId are valid integers
+    // Ensure that userId and blogId are valid integers before being used
     const parsedUserId = parseInt(userId);
     const parsedBlogId = parseInt(blogId);
 
-    // Check if userId and blogId are valid numbers
+    // Checks if userId and blogId are valid numbers
     if (isNaN(parsedUserId) || isNaN(parsedBlogId)) {
-      // Return an error response if userId or blogId is not a valid number
+      // Returns an error response if userId or blogId are not a valid number
       return res.status(400).json({ error: "Invalid userId or blogId" });
     }
 
-    // Create the new comment in the database
+    // Createa the new comment in the database and saves the content, userID and blogID
     const newComment = await Comment.create({
       content,
       userId: parsedUserId,

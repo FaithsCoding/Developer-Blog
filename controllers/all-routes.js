@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
       order: [["createdAt", "DESC"]],
     });
 
-    // Extract the required properties from each blog post
+    // Extracts the required properties from each blog post
     const formattedBlogPosts = blogPosts.map((blog) => ({
       id: blog.id,
       title: blog.title,
@@ -20,10 +20,10 @@ router.get("/", async (req, res) => {
       createdAt: blog.createdAt,
     }));
 
-    // Check if the user is authenticated
+    // Checks if the user is authenticated
     const loggedIn = req.isAuthenticated();
 
-    // Render the home page and pass the formatted blog posts, loggedIn status, and username to the template
+    // Renders the home page and pass the formatted blog posts, loggedIn status, and username to the template
     res.render("home", { blogPosts: formattedBlogPosts, loggedIn });
   } catch (err) {
     console.error(err);
@@ -58,14 +58,14 @@ router.get("/dashboard", async (req, res, next) => {
   }
 
   try {
-    // Fetch the user's blog posts from the database
-    const userId = req.user.id; // Assuming you have set up authentication and the user ID is available in the request object
+    // Fetchs the user's blog posts from the database
+    const userId = req.user.id;
     const userBlogs = await Blog.findAll({
       where: { userId },
       order: [["createdAt", "DESC"]],
     });
 
-    // Extract the title, excerpt, and createdAt from each blog post
+    // Extracts the title, excerpt, and createdAt from each blog post
     const blogPosts = userBlogs.map((blog) => ({
       id: blog.id,
       title: blog.title,
@@ -73,10 +73,9 @@ router.get("/dashboard", async (req, res, next) => {
       createdAt: blog.createdAt, // Include the createdAt value
     }));
 
-    // Pass the username to the template
     const username = req.user.username;
 
-    // Render the dashboard page and pass the extracted blog posts and username to the template
+    // Renders the dashboard page and pass the extracted blog posts and username to the views
     res.render("dashboard", { blogPosts, loggedIn: true, username });
   } catch (err) {
     console.error(err);
@@ -84,10 +83,4 @@ router.get("/dashboard", async (req, res, next) => {
   }
 });
 
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect("/login");
-}
 module.exports = router;

@@ -59,4 +59,6 @@ Username: FaithsCoding,
 
 Repository URL: https://github.com/FaithsCoding/Developer-Blog,
 
+Deployed URL: https://faithscodingblog.herokuapp.com/
+
 You can send me any questions via email: faithscoding@outlook.com
