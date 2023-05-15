@@ -10,10 +10,10 @@ function ensureAuthenticated(req, res, next) {
   res.redirect("/login");
 }
 
-// function formatDate(date) {
-//   const options = { year: "numeric", month: "long", day: "numeric" };
-//   return new Date(date).toLocaleDateString(undefined, options);
-// }
+function formatDate(date) {
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  return new Date(date).toLocaleDateString(undefined, options);
+}
 
 //uses a get method to create a blog
 router.get("/createblog", ensureAuthenticated, async (req, res) => {
