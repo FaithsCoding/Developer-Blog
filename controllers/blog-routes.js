@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const { User, Blog, Comment } = require("../models");
-const { formatDate } = require("../app");
 
 //ensures user is aunthenticated before being able to add blogs
 function ensureAuthenticated(req, res, next) {
