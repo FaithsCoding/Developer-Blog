@@ -6,7 +6,6 @@ const Blog = require("./Blog");
 class Comment extends Model {}
 
 Comment.init(
-      // defines the columns for the sequelized  tables
   {
     id: {
       type: DataTypes.INTEGER,

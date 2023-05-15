@@ -6,7 +6,7 @@ class Blog extends Model {}
 
 Blog.init(
   {
-    // defines the columns for the sequelized  tables
+    // define columns
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,

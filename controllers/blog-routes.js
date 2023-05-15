@@ -1,5 +1,10 @@
 const router = require("express").Router();
+const express = require("express");
 const { User, Blog, Comment } = require("../models");
+const methodOverride = require("method-override");
+
+router.use(express.urlencoded({ extended: false }));
+router.use(methodOverride("_method"));
 
 //ensures user is aunthenticated before being able to add blogs
 function ensureAuthenticated(req, res, next) {
@@ -190,10 +195,10 @@ router.put("/editpost/:id", async (req, res) => {
 
 router.get("/editpost/:id", ensureAuthenticated, async (req, res) => {
   try {
-    const userId = req.user.id; // Retrieves the user ID from the authenticated user
-    const blogId = req.params.id; // Gets the blog post ID from the URL parameter
+    const userId = req.user.id;
+    const blogId = req.params.id;
+    const loggedIn = req.isAuthenticated();
 
-    // Fetchs the blog post from the database based on the ID and the user ID
     const blog = await Blog.findOne({
       where: { id: blogId, userId: userId },
       attributes: ["id", "title", "excerpt", "content"],
@@ -203,8 +208,7 @@ router.get("/editpost/:id", ensureAuthenticated, async (req, res) => {
       return res.status(404).render("error", { error: "Blog post not found" });
     }
 
-    // Renders the editpost view and pass the blog post data to the template
-    res.render("editpost", { blog: blog.toJSON() }); // Converts blog object to JSON and pass it to the view
+    res.render("editpost", { blog: blog.toJSON(), loggedIn }); // Passes the `loggedIn` constant to the view
   } catch (error) {
     console.error(error);
     res.status(500).render("error", { error: "Server error" });
