@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { User, Blog, Comment } = require("../models");
+const {Comment } = require("../models");
 
 //this is a function to ensure the user is authenticated before being able to add comments
 function ensureAuthenticated(req, res, next) {

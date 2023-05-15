@@ -7,8 +7,7 @@ const passport = require("passport");
 //session already has a default idle time built in however we have specified a longer time period below
 const session = require("express-session");
 const initializePassport = require("./config/passport-config");
-const LocalStrategy = require("passport-local").Strategy;
-const User = require("./models/User");
+
 
 // Sets up the Express App
 const app = express();
