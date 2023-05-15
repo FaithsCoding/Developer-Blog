@@ -30,14 +30,23 @@ You can test the application by going to the home page, clicking all the links a
 ## Demo
 
 <img width="726" alt="Screenshot 2023-05-15 at 10 01 37" src="https://github.com/FaithsCoding/Developer-Blog/assets/122907573/31cb5b3a-95db-45b7-ac40-300d66fb5b78">
+
 <img width="722" alt="Screenshot 2023-05-15 at 10 01 52" src="https://github.com/FaithsCoding/Developer-Blog/assets/122907573/49d00a8e-28bb-4e90-8d25-18f8ad26c602">
+
 <img width="726" alt="Screenshot 2023-05-15 at 10 02 30" src="https://github.com/FaithsCoding/Developer-Blog/assets/122907573/740ca465-35da-4471-92e1-63ecffa55293">
+
 <img width="1412" alt="Screenshot 2023-05-15 at 10 02 39" src="https://github.com/FaithsCoding/Developer-Blog/assets/122907573/35dd65d1-af0e-42dc-8a97-797c29e48cc0">
+
 <img width="722" alt="Screenshot 2023-05-15 at 10 02 59" src="https://github.com/FaithsCoding/Developer-Blog/assets/122907573/f337ecec-84f0-4fe0-b006-b0e6f328855f">
+
 <img width="1436" alt="Screenshot 2023-05-15 at 10 03 15" src="https://github.com/FaithsCoding/Developer-Blog/assets/122907573/c28cedac-3bb8-44f9-a4ec-2383ed249ccf">
+
 <img width="720" alt="Screenshot 2023-05-15 at 10 03 24" src="https://github.com/FaithsCoding/Developer-Blog/assets/122907573/a6ee20b3-ddb3-42a1-990b-9fb33adad233">
+
 <img width="1422" alt="Screenshot 2023-05-15 at 10 03 37" src="https://github.com/FaithsCoding/Developer-Blog/assets/122907573/e72888e0-a0eb-4031-b69e-45d7cbdf0496">
+
 <img width="735" alt="Screenshot 2023-05-15 at 10 03 46" src="https://github.com/FaithsCoding/Developer-Blog/assets/122907573/9436fa8c-0fad-4042-a67c-7179ba6c6113">
+
 <img width="724" alt="Screenshot 2023-05-15 at 10 03 57" src="https://github.com/FaithsCoding/Developer-Blog/assets/122907573/24df2abc-8fb1-4fb7-af1f-479853969735">
 
 ## Contributing
