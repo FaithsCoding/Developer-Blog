@@ -56,5 +56,7 @@ Faith Meades
 ## Questions
 
 Username: FaithsCoding,
-URL: https://github.com/FaithsCoding,
+
+Repository URL: https://github.com/FaithsCoding/Developer-Blog,
+
 You can send me any questions via email: faithscoding@outlook.com
