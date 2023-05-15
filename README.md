@@ -11,7 +11,7 @@ This is a full stack project which has been built from scratch to allow users to
 - [Installation](#installation)
 - [Usage](#usage)
 - [Tests](#tests)
-- [Demo] (#demo)
+- [Demo](#demo)
 - [Contributing](#contributing)
 - [Questions](#questions)
 
